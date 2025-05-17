@@ -14,6 +14,7 @@ public class GUItry extends JFrame {
     private JTextField taskNameField;
     private JDateChooser dateChooser;
     private JComboBox<String> dropdown;
+    private JComboBox<String> priorityDropdown;
     private java.util.List<String> section = new ArrayList<>();
     private Map<String, Integer> sectionTaskCount = new HashMap<>();
     private Map<String, java.util.List<String>> tasksBySection = new HashMap<>();
@@ -44,33 +45,80 @@ public class GUItry extends JFrame {
         formPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         formPanel.setBackground(Color.WHITE);
 
-        JLabel taskLabel = new JLabel("Task Name:");
-        taskNameField = new JTextField(15);
+        // New arrangement as per user's request:
 
-        JLabel dateLabel = new JLabel("Due Date:");
-        dateChooser = new JDateChooser();
-        dateChooser.setPreferredSize(new Dimension(150, 25));
+        // Task Section Title
+        JLabel sectionTitleLabel = new JLabel("Task Section:");
+        sectionTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel sectionLabel = new JLabel("Section:");
+        // Section dropdown
         dropdown = new JComboBox<>();
+        dropdown.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
+        dropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton addButton = new JButton("➕ Add Task");
-        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addButton.addActionListener(e -> addTask());
-
+        // Add Section Button
         JButton sectionBtn = new JButton("➕ Add Section");
         sectionBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sectionBtn.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
         sectionBtn.addActionListener(e -> {
             FirstFrame ff = new FirstFrame(this);
             ff.setVisible(true);
         });
 
-        // Add components
-        for (JComponent comp : new JComponent[]{taskLabel, taskNameField, dateLabel, dateChooser, sectionLabel, dropdown, addButton, sectionBtn}) {
-            comp.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
-            formPanel.add(comp);
-            formPanel.add(Box.createVerticalStrut(10));
-        }
+        // Task Name Title
+        JLabel taskLabel = new JLabel("Task Name:");
+        taskLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Task Name TextField
+        taskNameField = new JTextField(15);
+        taskNameField.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
+        taskNameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Priority Level Title (New Feature)
+        JLabel priorityLabel = new JLabel("Priority Level:");
+        priorityLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Priority Dropdown
+        priorityDropdown = new JComboBox<>(new String[]{"High", "Moderate", "Low"});
+        priorityDropdown.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
+        priorityDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Due Date Title
+        JLabel dateLabel = new JLabel("Due Date:");
+        dateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Due Date chooser
+        dateChooser = new JDateChooser();
+        dateChooser.setPreferredSize(new Dimension(150, 25));
+        dateChooser.setMaximumSize(new Dimension(Short.MAX_VALUE, 30));
+        dateChooser.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Add Task Button
+        JButton addButton = new JButton("➕ Add Task");
+        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addButton.setMaximumSize(new Dimension(Short.MAX_VALUE, 40));
+        addButton.addActionListener(e -> addTask());
+
+        // Add components in order
+        formPanel.add(sectionTitleLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(dropdown);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(sectionBtn);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(taskLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(taskNameField);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(priorityLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(priorityDropdown);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(dateLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(dateChooser);
+        formPanel.add(Box.createVerticalStrut(30));
+        formPanel.add(addButton);
 
         mainPanel.setLeftComponent(formPanel);
 
@@ -84,6 +132,7 @@ public class GUItry extends JFrame {
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         mainPanel.setRightComponent(scrollPane);
 
+        // Initialize dropdown and load tasks
         updateDropDown();
         loadTasks();
         setVisible(true);
@@ -112,28 +161,30 @@ public class GUItry extends JFrame {
         String taskName = taskNameField.getText().trim();
         Date selectedDate = dateChooser.getDate();
         String selectedSection = (String) dropdown.getSelectedItem();
+        String priority = (String) priorityDropdown.getSelectedItem();
 
-        if (taskName.isEmpty() || selectedDate == null || selectedSection == null) {
+        if (taskName.isEmpty() || selectedDate == null || selectedSection == null || priority == null) {
             JOptionPane.showMessageDialog(this, "Please fill in all fields.");
             return;
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dueDate = sdf.format(selectedDate);
-        String taskText = taskName + " (Due: " + dueDate + ")";
+        String taskText = taskName + " (Priority: " + priority + ", Due: " + dueDate + ")";
 
         tasksBySection.computeIfAbsent(selectedSection, k -> new ArrayList<>()).add(taskText);
         sectionTaskCount.put(selectedSection, sectionTaskCount.getOrDefault(selectedSection, 0) + 1);
 
         taskNameField.setText("");
         dateChooser.setDate(null);
+        priorityDropdown.setSelectedIndex(0);
         renderSections();
     }
 
     private void renderSections() {
         taskListPanel.removeAll();
         for (String sec : section) {
-            JLabel sectionTitle = new JLabel(sec);
+            JLabel sectionTitle = new JLabel("📁 " + sec);
             sectionTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
             sectionTitle.setBorder(new EmptyBorder(10, 0, 5, 0));
             taskListPanel.add(sectionTitle);
