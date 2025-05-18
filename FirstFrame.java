@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class FirstFrame extends JFrame {
     private final GUItry mainFrame;
 
+    //Takes an instance of GUItry as parameter to allow interaction with it.
     public FirstFrame(GUItry mainFrame) {
         this.mainFrame = mainFrame;
 
