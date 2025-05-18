@@ -1,0 +1,11 @@
+[SECTION] home
+run errands with mom,Moderate,2025-05-19
+put clothes aside,Low,2025-05-19
+[SECTION] groceries
+buy apples,Moderate,2025-05-20
+buy cookies,High,2025-05-20
+buy waffles,Moderate,2025-05-19
+buy A LOT OF CHOCLATES,High,2025-05-19
+buy watermelon,Low,2025-05-19
+[SECTION] to go list
+[SECTION] to do today list

@@ -1,0 +1,37 @@
+Toolkit: Toolkit is an abstract class in Java's Abstract Window Toolkit (AWT) package.
+It provides a common interface for accessing system-dependent resources such as the screen size, mouse, and keyboard.
+
+The Dimension class is part of the java.awt package,
+which is the Abstract Window Toolkit (AWT) for Java.
+
+getDefaultToolkit(): This method is a static method of the Toolkit class.
+It returns the default toolkit for the current platform.
+This toolkit provides access to system resources.
+
+getScreenSize(): This method is part of the Toolkit class.
+It returns the size of the screen in pixels as a Dimension object.
+The Dimension object contains width and height fields representing the screen size.
+
+setPreferredSize(): overrides the BorderLaylut and actually changes the sizws of the panels to
+the ones you set them to be. setSize() doesn't do that
+
+set(index, element):
+index: The index at which the specified element is to be inserted.
+element: The element to be stored at the specified index.
+
+    // turn section into arrayList, each task will have a section assigned by its index, each time new section created
+    //it gets assigned an index, when displaying section with num of tasks, you're essentially displaying a counter
+    //counter of how many tasks have that specific index
+
+        //add label TASKS DUE TODAY to centerPanel
+//        JLabel todayTask = new JLabel("Tasks due today: ");
+//        todayTask.setPreferredSize(new Dimension (300, 50));
+//        todayTask.setFont(fontText);
+
+                //????
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.gridy = 1; // Set y position to 1
+//        gbc.insets = new Insets(10, 0, 0, 0);
+//
+//        centerPanel.setLayout(new GridBagLayout());
+//        centerPanel.add(todayTask, gbc);
